@@ -18,13 +18,29 @@ import ballerina/io;
 
 configurable ApiKeysConfig apiKeyConfig = ?;
 // configurable string serviceUrl = "https://api.temenos.com/api/v9.2.0//holdings";
+configurable string accountId = "65846";
 
 final Client temenos = check new (apiKeyConfig);
 
-@test:Config {}
+@test:Config {
+    groups: ["GetAccountsBasicDetails"]
+}
 isolated function testGetAccountsBasicDetails() returns error? {
     AccountInfoResponse|error response = temenos->/accounts/accountsDetails.get();
     if response is AccountInfoResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(true, "Successfully retrieved customer information");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
+
+@test:Config {
+    groups: ["GetAccountDormancyConditions"]
+}
+isolated function GetAccountDormancyConditions() returns error? {
+    AccountDormancyDetailsResponse|error response = temenos->/accounts/[accountId]/dormancyConditions.get();
+    if response is AccountDormancyDetailsResponse {
         io:println("Success Response: ", response);
         test:assertTrue(true, "Successfully retrieved customer information");
     } else {
