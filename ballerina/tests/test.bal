@@ -87,3 +87,17 @@ isolated function GetAccountStatementDetails() returns error? {
         test:assertFail("Failed to retrieve customers: " + response.message());
     }
 }
+
+@test:Config {
+    groups: ["GetDetailsofFutureTransactionEntries"]
+}
+isolated function GetDetailsofFutureTransactionEntries() returns error? {
+    ForwardEntriesResponse|error response = temenos->/accounts/[accountId]/statements/forwardEntries.get();
+    if response is ForwardEntriesResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(response is ForwardEntriesResponse, "Response falied");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
+// Error: NULL KEY SPECIFIED FOR SELECTION
