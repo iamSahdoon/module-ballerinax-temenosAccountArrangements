@@ -101,3 +101,17 @@ isolated function GetDetailsofFutureTransactionEntries() returns error? {
     }
 }
 // Error: NULL KEY SPECIFIED FOR SELECTION
+
+@test:Config {
+    groups: ["GetDetailsofFutureTransactionEntries"]
+}
+isolated function GetGeneratedStatementDetails() returns error? {
+    PastStatementsResponse|error response = temenos->/accounts/[accountId]/statements/dates.get();
+    if response is PastStatementsResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(response is PastStatementsResponse, "Response falied");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
+// Error: NULL KEY SPECIFIED FOR SELECTION
