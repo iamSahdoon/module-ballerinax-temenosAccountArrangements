@@ -73,3 +73,17 @@ isolated function GetAccountServiceAvailability() returns error? {
         test:assertFail("Failed to retrieve customers: " + response.message());
     }
 }
+
+
+@test:Config {
+    groups: ["GetAccountStatementDetails"]
+}
+isolated function GetAccountStatementDetails() returns error? {
+    AccountStatementResponse|error response = temenos->/accounts/[accountId]/statements.get();
+    if response is AccountStatementResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(response is AccountStatementResponse, "Response falied");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
