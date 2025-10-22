@@ -103,7 +103,7 @@ isolated function GetDetailsofFutureTransactionEntries() returns error? {
 // Error: NULL KEY SPECIFIED FOR SELECTION
 
 @test:Config {
-    groups: ["GetDetailsofFutureTransactionEntries"]
+    groups: ["GetGeneratedStatementDetails"]
 }
 isolated function GetGeneratedStatementDetails() returns error? {
     PastStatementsResponse|error response = temenos->/accounts/[accountId]/statements/dates.get();
@@ -114,4 +114,5 @@ isolated function GetGeneratedStatementDetails() returns error? {
         test:assertFail("Failed to retrieve customers: " + response.message());
     }
 }
-// Error: NULL KEY SPECIFIED FOR SELECTION
+// Error: No records found.
+
