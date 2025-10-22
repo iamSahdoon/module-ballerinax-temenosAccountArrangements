@@ -29,7 +29,7 @@ isolated function testGetAccountsBasicDetails() returns error? {
     AccountInfoResponse|error response = temenos->/accounts/accountsDetails.get();
     if response is AccountInfoResponse {
         io:println("Success Response: ", response);
-        test:assertTrue(true, "Successfully retrieved customer information");
+        test:assertTrue(response is AccountInfoResponse, "Response falied");
     } else {
         test:assertFail("Failed to retrieve customers: " + response.message());
     }
@@ -42,7 +42,33 @@ isolated function GetAccountDormancyConditions() returns error? {
     AccountDormancyDetailsResponse|error response = temenos->/accounts/[accountId]/dormancyConditions.get();
     if response is AccountDormancyDetailsResponse {
         io:println("Success Response: ", response);
-        test:assertTrue(true, "Successfully retrieved customer information");
+        test:assertTrue(response is AccountDormancyDetailsResponse, "Response falied");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
+
+@test:Config {
+    groups: ["GetAccountDetailsbyAccountId"]
+}
+isolated function GetAccountDetailsbyAccountId() returns error? {
+    AccountDetailsResponse|error response = temenos->/accounts/[accountId].get();
+    if response is AccountDetailsResponse {
+        io:println("Success Response: ", response);
+        test:assertTrue(response is AccountDetailsResponse, "Response falied");
+    } else {
+        test:assertFail("Failed to retrieve customers: " + response.message());
+    }
+}
+
+@test:Config {
+    groups: ["GetAccountServiceAvailability"]
+}
+isolated function GetAccountServiceAvailability() returns error? {
+    AccountfacilitiesResponse1|error response = temenos->/accounts/[accountId]/facilities.get();
+    if response is AccountfacilitiesResponse1 {
+        io:println("Success Response: ", response);
+        test:assertTrue(response is AccountfacilitiesResponse1, "Response falied");
     } else {
         test:assertFail("Failed to retrieve customers: " + response.message());
     }
